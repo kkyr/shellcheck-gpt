@@ -15,7 +15,7 @@ Automatically correct script issues by feeding [shellcheck](https://www.shellche
 shellcheck-gpt can be installed using the `go install` tool. Distribution methods that do not depend on Go are coming soon!
 
 ```shell
-$ go install github.com/kkyr/shellcheck-gpt
+go install github.com/kkyr/shellcheck-gpt
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ export OPENAI_API_KEY=replace-with-your-key
 Run shellcheck-gpt against a script:
 
 ```shell
-$ shellcheck-gpt script.sh
+shellcheck-gpt script.sh
 ```
 
 This will:
@@ -41,7 +41,7 @@ This will:
 If you'd like to write the output back into the script, use the `-w` flag:
 
 ```shell
-$ shellcheck-gpt -w script.sh
+shellcheck-gpt -w script.sh
 ```
 
 ## Configuration
@@ -49,13 +49,13 @@ $ shellcheck-gpt -w script.sh
 By default, shellcheck-gpt uses the gpt-3.5-turbo model. You can modify this to another model using the `-m` flag:
 
 ```shell
-$ shellcheck-gpt -m gpt-4-turbo script.sh
+shellcheck-gpt -m gpt-4-turbo script.sh
 ```
 
 See available options and models using the `--help` flag:
 
 ```shell
-$ shellcheck-gpt --help
+shellcheck-gpt --help
 ```
 
 ## Contributing
