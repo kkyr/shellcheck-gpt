@@ -1,6 +1,6 @@
 # shellcheck-gpt
 
-Automatically correct shell script issues by feeding [shellcheck](https://www.shellcheck.net) analysis into an LLM.
+Automatically correct script issues by feeding [shellcheck](https://www.shellcheck.net) analysis into an LLM.
 
 ## Getting started
 
@@ -38,7 +38,7 @@ This will:
 1. Feed the script and the output of shellcheck into an LLM and ask it to make the corrections
 1. Write the LLM's output onto stdout
 
-If you'd like to write the output back into the file, use the `-w` flag:
+If you'd like to write the output back into the script, use the `-w` flag:
 
 ```shell
 $ shellcheck-gpt -w script.sh
