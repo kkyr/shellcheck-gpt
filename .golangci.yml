@@ -1,0 +1,11 @@
+linters:
+  enable-all: true
+  disable:
+    - depguard
+    - exhaustivestruct
+    - exhaustruct
+    - gochecknoglobals
+    - gochecknoinits
+    - goerr113
+    - gofumpt
+    - gomnd

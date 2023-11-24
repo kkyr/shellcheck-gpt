@@ -35,7 +35,7 @@ const (
 	Your response should exclusively consist of the updated shell script text, presented without using 
 	a code block format.
 	`
-	
+
 	userPrompt = `
 	SHELL_SCRIPT:
 	{{.ScriptContents}}
@@ -50,19 +50,19 @@ const (
 	`
 
 	gpt35turbo = "gpt-3.5-turbo"
-	gpt4turbo = "gpt-4-turbo"
+	gpt4turbo  = "gpt-4-turbo"
 )
 
 var (
 	userPromptTmpl = template.Must(template.New("prompt").Parse(userPrompt))
-	client = openai.NewClient(os.Getenv("OPENAI_API_KEY")) 
+	client         = openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 )
 
 var (
-	// Command line flags
-	writeFile bool
-	showVersion bool
-	model string
+	// Command line flags.
+	writeFile     bool
+	showVersion   bool
+	selectedModel string
 
 	version = "dev"
 )
@@ -70,18 +70,19 @@ var (
 func init() {
 	flag.BoolVar(&writeFile, "w", false, "write shell script to input file")
 	flag.BoolVar(&showVersion, "v", false, "print version number and exit")
-	flag.StringVar(&model, "m", gpt35turbo, fmt.Sprintf("specify the model to use (%s or %s)", gpt35turbo, gpt4turbo))
+	flag.StringVar(&selectedModel, "m", gpt35turbo,
+		fmt.Sprintf("specify the model to use (%s or %s)", gpt35turbo, gpt4turbo))
 
 	flag.Usage = usage
 }
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] FILE\n\n", os.Args[0])
-	fmt.Fprintf(os.Stderr, "Execute shellcheck on the given script and pass the results to a large language model " +
+	fmt.Fprintf(os.Stderr, "Execute shellcheck on the given script and pass the results to a large language model "+
 		"for making appropriate corrections.\n\n")
-	fmt.Fprintf(os.Stderr, "The default behavior displays the modified script on the console. Use the '-w' flag " +
+	fmt.Fprintf(os.Stderr, "The default behavior displays the modified script on the console. Use the '-w' flag "+
 		"to save the changes directly to the specified file.\n\n")
-		fmt.Fprintf(os.Stderr, "The shellcheck binary must be present in your path.\n\n")
+	fmt.Fprintf(os.Stderr, "The shellcheck binary must be present in your path.\n\n")
 	fmt.Fprintln(os.Stderr, "OPTIONS:")
 	flag.PrintDefaults()
 	fmt.Fprintln(os.Stderr, "")
@@ -95,13 +96,13 @@ func printf(format string, a ...interface{}) {
 
 func main() {
 	flag.Parse()
-	
+
 	if showVersion {
-		fmt.Printf("%s %s (runtime: %s)\n", os.Args[0], version, runtime.Version())
+		fmt.Fprintf(os.Stderr, "%s %s (runtime: %s)\n", os.Args[0], version, runtime.Version())
 		os.Exit(0)
 	}
 
-	if model != gpt35turbo && model != gpt4turbo {
+	if selectedModel != gpt35turbo && selectedModel != gpt4turbo {
 		fmt.Fprintf(os.Stderr, "%s: model must be %s or %s\n", os.Args[0], gpt35turbo, gpt4turbo)
 		os.Exit(1)
 	}
@@ -111,6 +112,7 @@ func main() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
 	filePath := args[0]
 
 	run(filePath)
@@ -118,6 +120,7 @@ func main() {
 
 func run(filePath string) {
 	printf("%s\n", "Running shellcheck against script")
+
 	analysis, err := runShellcheck(filePath)
 	if err != nil {
 		log.Fatal(err)
@@ -125,6 +128,7 @@ func run(filePath string) {
 
 	if analysis == "" {
 		printf("%s\n", color.GreenString("shellcheck detected no issues."))
+
 		return
 	}
 
@@ -135,15 +139,16 @@ func run(filePath string) {
 		log.Fatalf("unable to read file: %v", err)
 	}
 
-	result, err := callCompletionAPI(string(script), string(analysis))
+	result, err := callCompletionAPI(string(script), analysis)
 	if err != nil {
 		log.Fatalf("error calling completion API: %v", err)
 	}
 
 	if writeFile {
-		if err := os.WriteFile(filePath, []byte(result), 0644); err != nil {
+		if err := os.WriteFile(filePath, []byte(result), 0600); err != nil {
 			log.Fatalf("could not write updated script to file: %v", err)
 		}
+
 		printf("%s %s\n", color.GreenString("Updated script written to"), color.GreenString(filePath))
 		printf("%s\n", color.YellowString("Double check it before you commit!"))
 	} else {
@@ -158,11 +163,11 @@ func runShellcheck(filePath string) (string, error) {
 	if err != nil {
 		exitCode := cmd.ProcessState.ExitCode()
 		// shellcheck returns exit code 1 when it finds issues
-		if exitCode == 1 {
-			return string(output), nil
-		} else {	
-			return "", fmt.Errorf("shellcheck exited with code %d: %s", exitCode, err)
+		if exitCode != 1 {
+			return "", fmt.Errorf("shellcheck exited with code %d: %w", exitCode, err)
 		}
+
+		return string(output), nil
 	}
 
 	return "", nil
@@ -171,18 +176,18 @@ func runShellcheck(filePath string) (string, error) {
 func callCompletionAPI(script, analysis string) (string, error) {
 	spin := spinner.New(spinner.CharSets[26], 250*time.Millisecond)
 	spin.Prefix = "Waiting for completion response"
+
 	spin.Start()
 	defer spin.Stop()
 
 	data := map[string]string{
-		"ScriptContents":       string(script),
-		"StaticAnalysisOutput": string(analysis),
+		"ScriptContents":       script,
+		"StaticAnalysisOutput": analysis,
 	}
 
 	var buffer bytes.Buffer
-	err := userPromptTmpl.Execute(&buffer, data)
-	if err != nil {
-		log.Fatalf("unable to format prompt: %v", err)
+	if err := userPromptTmpl.Execute(&buffer, data); err != nil {
+		return "", fmt.Errorf("unable to format prompt: %w", err)
 	}
 
 	resp, err := client.CreateChatCompletion(
@@ -190,7 +195,7 @@ func callCompletionAPI(script, analysis string) (string, error) {
 		getCompletionRequest(buffer.String()),
 	)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not create chat completion: %w", err)
 	}
 
 	if len(resp.Choices) > 0 {
@@ -201,16 +206,16 @@ func callCompletionAPI(script, analysis string) (string, error) {
 }
 
 func getCompletionRequest(prompt string) openai.ChatCompletionRequest {
-	m := openai.GPT3Dot5Turbo
-	if model == gpt4turbo {
-		m = openai.GPT4TurboPreview
+	model := openai.GPT3Dot5Turbo
+	if selectedModel == gpt4turbo {
+		model = openai.GPT4TurboPreview
 	}
 
 	return openai.ChatCompletionRequest{
-		Model: m,
+		Model: model,
 		Messages: []openai.ChatCompletionMessage{
 			{
-				Role: openai.ChatMessageRoleSystem,
+				Role:    openai.ChatMessageRoleSystem,
 				Content: systemPrompt,
 			},
 			{
@@ -219,4 +224,4 @@ func getCompletionRequest(prompt string) openai.ChatCompletionRequest {
 			},
 		},
 	}
-} 
+}
