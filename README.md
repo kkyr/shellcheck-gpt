@@ -1,7 +1,7 @@
 <p align="center">
   <img src="resources/logo.png" alt="shellcheck-gpt" title="shellcheck-gpt" class="img-responsive" style="width:256px;" />
   <h3 align="center">shellcheck-gpt</h3>
-  <p align="center">Instantly enhance and optimize shell scripts with the power of ShellCheck and LLMs.</p>
+  <p align="center">Instantly identify and fix problems in shell scripts with the power of ShellCheck and LLMs.</p>
 </p>
 
 <p align="center">
