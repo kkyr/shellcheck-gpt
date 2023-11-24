@@ -156,7 +156,8 @@ func run(filePath string) {
 		}
 
 		printf("%s %s\n", color.GreenString("Updated script written to"), color.GreenString(filePath))
-		printf("%s\n", color.RedString("Warning: the script was written by an LLM. Double check it with a diff tool before you commit."))
+		printf("%s\n", color.RedString("Warning: the script was written by an LLM. "+
+			"Double check it with a diff tool before you commit."))
 	} else {
 		printf("\n%s\n", result)
 	}
