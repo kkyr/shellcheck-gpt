@@ -179,7 +179,7 @@ func runShellcheck(filePath string) (string, error) {
 }
 
 func getConfirmation() bool {
-	printf("%s", color.YellowString("Would you like to proceed with correction of issues (y/n)? "))
+	printf("%s", color.YellowString("Would you like to proceed with the LLM issue correction (y/n)? "))
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -190,12 +190,13 @@ func getConfirmation() bool {
 	
 		input = strings.ToLower(strings.TrimSpace(input))
 	
-		if input == "y" || input == "yes" {
-			return true
-		} else if input == "n" || input == "no" {
-			return false
-		} else {
-			printf("%s", color.RedString("Invalid input. Please enter 'y' or 'n': "))
+		switch input {
+		case "y", "yes":
+				return true
+		case "n", "no":
+				return false
+		default:
+				fmt.Printf("%s", color.RedString("Invalid input. Please enter 'y' or 'n': "))
 		}
 	}
 }
