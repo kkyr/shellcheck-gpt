@@ -82,7 +82,7 @@ func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] FILE\n\n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "Execute shellcheck on the given script and pass the results to a large language model "+
 		"for making appropriate corrections.\n\n")
-	fmt.Fprintf(os.Stderr, "The default behavior displays the modified script on the console. Use the '-w' flag "+
+	fmt.Fprintf(os.Stderr, "The default behavior displays the modified script in the console. Use the '-w' flag "+
 		"to save the changes directly to the specified file.\n\n")
 	fmt.Fprintf(os.Stderr, "The shellcheck binary must be present in your path.\n\n")
 	fmt.Fprintln(os.Stderr, "OPTIONS:")

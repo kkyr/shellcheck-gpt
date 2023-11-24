@@ -84,6 +84,9 @@ If you'd like to instead write the output back into the script, use the `-w` fla
 shellcheck-gpt -w script.sh
 ```
 
+> [!WARNING]  
+> The entire contents of your script are sent in cleartext to OpenAI.
+
 # Configuration
 
 By default, shellcheck-gpt uses the _gpt-3.5-turbo_ model. You can modify this to another model using the `-m` flag:
