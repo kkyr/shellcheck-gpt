@@ -31,9 +31,17 @@ jobs:
         run: go build -v ./...
       - name: lint
         run: make lint
-      - name: goreleaser validation
+      - name: validate goreleaser
         uses: goreleaser/goreleaser-action@v5
         with:
           distribution: goreleaser
           version: latest
           args: check
+      - name: release on new tag
+        uses: goreleaser/goreleaser-action@v5
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
