@@ -26,6 +26,17 @@ archives:
       - goos: windows
         format: zip
 
+brews:
+  - tap:
+      owner: kkyr
+      name: homebrew-tap
+    folder: Formula
+    homepage: "https://github.com/kkyr/shellcheck-gpt"
+    description: "Automatically correct script issues by feeding shellcheck analysis into an LLM"
+    license: "MIT"
+    dependencies:
+      - name: shellcheck
+
 changelog:
   sort: asc
   filters:
