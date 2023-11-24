@@ -33,7 +33,8 @@ var client = openai.NewClient(os.Getenv("OPENAI_API_KEY"))
 func init() {
 	flag.BoolVar(&writeFile, "w", false, "write shell script to input file. This will overwrite the input file.")
 	flag.BoolVar(&showVersion, "v", false, "print version number and exit")
-	flag.Var(&useModel, "m", fmt.Sprintf("specify the model to use (%s)", strings.Join(validModels(), " or ")))
+	flag.Var(&useModel, "m",
+		fmt.Sprintf("specify the model to use (%s) (default: %q)", strings.Join(validModels(), " or "), GPT35Turbo.String()))
 
 	flag.Usage = usage
 }
