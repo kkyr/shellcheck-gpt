@@ -1,6 +1,6 @@
 # shellcheck-gpt
 
-Automatically correct script issues by feeding [shellcheck](https://www.shellcheck.net) analysis into an LLM.
+Automatically correct script issues by feeding [shellcheck](https://www.shellcheck.net) analysis into an LLM and asking it to make the corrections.
 
 ## Getting started
 
@@ -23,13 +23,17 @@ Download the latest [release](https://github.com/kkyr/shellcheck-gpt/releases) a
 
 #### Build using Go toolchain
 
-Add your OpenAI API key to the environment:
-
 ```shell
 go install github.com/kkyr/shellcheck-gpt
 ```
 
 ## Usage
+
+Add your OpenAI API key to the environment:
+
+```shell
+export OPENAI_API_KEY=replace-with-your-api-key
+```
 
 Run shellcheck-gpt against a script:
 
@@ -40,10 +44,10 @@ shellcheck-gpt script.sh
 This will:
 
 1. Run shellcheck against `script.sh`
-1. Feed the script and the output of shellcheck into an LLM and ask it to make the corrections
+1. Feed the contents of the script and the output of shellcheck into an OpenAI LLM and ask it to make corrections
 1. Write the LLM's output onto stdout
 
-If you'd like to write the output back into the script, use the `-w` flag:
+If you'd like to instead write the output back into the script, use the `-w` flag:
 
 ```shell
 shellcheck-gpt -w script.sh
@@ -51,7 +55,7 @@ shellcheck-gpt -w script.sh
 
 ## Configuration
 
-By default, shellcheck-gpt uses the gpt-3.5-turbo model. You can modify this to another model using the `-m` flag:
+By default, shellcheck-gpt uses the _gpt-3.5-turbo_ model. You can modify this to another model using the `-m` flag:
 
 ```shell
 shellcheck-gpt -m gpt-4-turbo script.sh
