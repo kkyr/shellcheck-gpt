@@ -85,7 +85,7 @@ shellcheck-gpt -w script.sh
 ```
 
 > [!WARNING]  
-> The entire contents of your script are sent in cleartext to OpenAI.
+> The entire content of your script is sent in cleartext to OpenAI.
 
 # Configuration
 
