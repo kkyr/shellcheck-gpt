@@ -4,8 +4,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/kkyr/shellcheck-gpt/releases"><img src="https://img.shields.io/github/v/tag/kkyr/shellcheck-gpt" alt="semver tag" title="semver tag"/></a>
-  <a href="https://github.com/kkyr/shellcheck-gpt/blob/master/LICENSE"><img src="https://img.shields.io/github/license/kkyr/shellcheck-gpt" alt="license" title="license"/></a>
+  <a href="https://github.com/kkyr/shellcheck-gpt/releases"><img src="https://img.shields.io/github/v/tag/kkyr/shellcheck-gpt?style=for-the-badge" alt="semver tag" title="semver tag"/></a>
+  <a href="https://github.com/kkyr/shellcheck-gpt/actions?workflow=build"><img src="https://img.shields.io/github/actions/workflow/status/kkyr/shellcheck-gpt/build.yml?style=for-the-badge&branch=main" alt="build status" title="semver tag"/></a>
+  <a href="https://github.com/kkyr/shellcheck-gpt/blob/master/LICENSE"><img src="https://img.shields.io/github/license/kkyr/shellcheck-gpt?style=for-the-badge" alt="license" title="license"/></a>
 </p>
 
 ---
