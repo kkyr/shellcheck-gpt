@@ -10,3 +10,4 @@ linters:
     - gofumpt
     - gomnd
     - nlreturn
+    - varnamelen

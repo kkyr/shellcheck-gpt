@@ -51,9 +51,6 @@ const (
 	Ensure that the output of your task is solely the modified shell script text, presented without the use 
 	of a code block format.
 	`
-
-	gpt35turbo = "gpt-3.5-turbo"
-	gpt4turbo  = "gpt-4-turbo"
 )
 
 var (
@@ -63,9 +60,9 @@ var (
 
 var (
 	// Command line flags.
-	writeFile     bool
-	showVersion   bool
-	selectedModel string
+	writeFile   bool
+	showVersion bool
+	useModel    Model
 
 	version = "dev"
 )
@@ -73,8 +70,7 @@ var (
 func init() {
 	flag.BoolVar(&writeFile, "w", false, "write shell script to input file. This will overwrite the input file.")
 	flag.BoolVar(&showVersion, "v", false, "print version number and exit")
-	flag.StringVar(&selectedModel, "m", gpt35turbo,
-		fmt.Sprintf("specify the model to use (%s or %s)", gpt35turbo, gpt4turbo))
+	flag.Var(&useModel, "m", fmt.Sprintf("specify the model to use (%s)", strings.Join(validModels(), " or ")))
 
 	flag.Usage = usage
 }
@@ -82,9 +78,9 @@ func init() {
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage: %s [OPTIONS] FILE\n\n", os.Args[0])
 	fmt.Fprintf(os.Stderr, "Execute shellcheck on the given script and pass the results to a large language model "+
-		"for making appropriate corrections.\n\n")
+		"for making appropriate corrections.\n")
 	fmt.Fprintf(os.Stderr, "The default behavior displays the modified script in the console. Use the '-w' flag "+
-		"to save the changes directly to the specified file.\n\n")
+		"to save the changes directly to the specified file.\n")
 	fmt.Fprintf(os.Stderr, "The shellcheck binary must be present in your path.\n\n")
 	fmt.Fprintln(os.Stderr, "OPTIONS:")
 	flag.PrintDefaults()
@@ -103,11 +99,6 @@ func main() {
 	if showVersion {
 		fmt.Fprintf(os.Stderr, "%s %s (runtime: %s)\n", os.Args[0], version, runtime.Version())
 		os.Exit(0)
-	}
-
-	if selectedModel != gpt35turbo && selectedModel != gpt4turbo {
-		fmt.Fprintf(os.Stderr, "%s: model must be %s or %s\n", os.Args[0], gpt35turbo, gpt4turbo)
-		os.Exit(1)
 	}
 
 	args := flag.Args()
@@ -133,7 +124,7 @@ func run(filePath string) {
 	}
 
 	printf("%s\n", color.YellowString("The following issues have been detected by shellcheck:"))
-	printf("%s\n", analysis)
+	printf("%s\n", color.CyanString(analysis))
 
 	if !getUserConfirmation() {
 		printf("%s\n", "Aborting.")
@@ -239,9 +230,15 @@ func getChatCompletion(script, analysis string) (string, error) {
 }
 
 func buildCompletionRequest(prompt string) openai.ChatCompletionRequest {
-	model := openai.GPT3Dot5Turbo
-	if selectedModel == gpt4turbo {
+	var model string
+
+	switch useModel {
+	case GPT35Turbo:
+		model = openai.GPT3Dot5Turbo
+	case GPT4Turbo:
 		model = openai.GPT4TurboPreview
+	default:
+		model = openai.GPT3Dot5Turbo
 	}
 
 	return openai.ChatCompletionRequest{
