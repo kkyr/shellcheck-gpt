@@ -185,11 +185,11 @@ func getChatCompletion(script, analysis string) (string, error) {
 		return "", fmt.Errorf("could not create chat completion: %w", err)
 	}
 
-	if len(resp.Choices) > 0 {
-		return resp.Choices[0].Message.Content, nil
+	if len(resp.Choices) == 0 {
+		return "", fmt.Errorf("empty response")
 	}
 
-	return "", fmt.Errorf("empty response")
+	return resp.Choices[0].Message.Content, nil
 }
 
 func buildCompletionRequest(prompt string) openai.ChatCompletionRequest {
