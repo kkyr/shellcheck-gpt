@@ -136,7 +136,7 @@ func run(filePath string) {
 	printf("%s\n", analysis)
 
 	if !getConfirmation() {
-		printf("%s\n", "Exiting!")
+		printf("%s\n", "Aborting.")
 		return
 	}
 
@@ -156,7 +156,7 @@ func run(filePath string) {
 		}
 
 		printf("%s %s\n", color.GreenString("Updated script written to"), color.GreenString(filePath))
-		printf("%s\n", color.RedString("Warning: the script was written by an LLM. "+
+		printf("%s\n", color.YellowString("WARNING: the script was written by an LLM. "+
 			"Double check it with a diff tool before you commit."))
 	} else {
 		printf("\n%s\n", result)
@@ -181,7 +181,7 @@ func runShellcheck(filePath string) (string, error) {
 }
 
 func getConfirmation() bool {
-	printf("%s", color.YellowString("Would you like the LLM to proceed with issue correction (y/n)? "))
+	printf("%s", color.YellowString("Would you like the LLM to proceed with correction of issues (y/n)? "))
 
 	reader := bufio.NewReader(os.Stdin)
 
@@ -206,7 +206,7 @@ func getConfirmation() bool {
 
 func callCompletionAPI(script, analysis string) (string, error) {
 	spin := spinner.New(spinner.CharSets[26], 250*time.Millisecond)
-	spin.Prefix = "Waiting for completion API response"
+	spin.Prefix = "Waiting for LLM API response"
 
 	spin.Start()
 	defer spin.Stop()
