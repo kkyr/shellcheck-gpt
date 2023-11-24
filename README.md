@@ -13,7 +13,7 @@
 
 # Example
 
-The following script:
+When shellcheck-gpt is provided the following script:
 
 ```shell
 for f in $(ls *.m3u)
@@ -23,7 +23,7 @@ do
 done
 ```
 
-Is rewritten to by shellcheck-gpt:
+It integrates feedback from [ShellCheck](https://www.shellcheck.net) and employs an LLM to refine it into:
 
 ```shell
 for f in ./*.m3u
