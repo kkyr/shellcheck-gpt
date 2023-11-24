@@ -11,27 +11,11 @@
 
 ---
 
-# Example
+# Screencast
 
-When shellcheck-gpt is provided the following script:
+![Alt Text](https://github.com/kkyr/shellcheck-gpt/blob/main/resources/screencast.gif)
 
-```shell
-for f in $(ls *.m3u)
-do
-  grep -qi hq.*mp3 $f \
-    && echo -e 'Playlist $f contains a HQ file in mp3 format'
-done
-```
-
-It integrates feedback from [ShellCheck](https://www.shellcheck.net) and employs an LLM to refine it into:
-
-```shell
-for f in ./*.m3u
-do
-  grep -qi "hq.*mp3" "$f" \
-    && echo "Playlist $f contains a HQ file in mp3 format"
-done
-```
+See [example](https://github.com/kkyr/shellcheck-gpt/tree/main/example) directory to see script contents before and after.
 
 # Getting started
 
