@@ -1,5 +1,5 @@
 #!/bin/sh
-## Example: a typical script with several problems
+## Example: Revised script with the identified issues resolved
 for f in ./*.m3u
 do
   grep -qi "hq.*mp3" "$f" \

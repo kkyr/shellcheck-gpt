@@ -180,7 +180,7 @@ func runShellcheck(filePath string) (string, error) {
 }
 
 func getConfirmation() bool {
-	printf("%s", color.YellowString("Would you like to proceed with the LLM issue correction (y/n)? "))
+	printf("%s", color.YellowString("Would you like the LLM to proceed with issue correction (y/n)? "))
 
 	reader := bufio.NewReader(os.Stdin)
 
