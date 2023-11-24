@@ -89,8 +89,8 @@ func usage() {
 	fmt.Fprintln(os.Stderr, "  OPENAI_API_KEY OpenAI API key")
 }
 
-func printf(format string, a ...interface{}) (n int, err error) {
-	return fmt.Fprintf(color.Output, format, a...)
+func printf(format string, a ...interface{}) {
+	_, _ = fmt.Fprintf(color.Output, format, a...)
 }
 
 func main() {
@@ -141,7 +141,9 @@ func run(filePath string) {
 	}
 
 	if writeFile {
-		os.WriteFile(filePath, []byte(result), 0644)
+		if err := os.WriteFile(filePath, []byte(result), 0644); err != nil {
+			log.Fatalf("could not write updated script to file: %v", err)
+		}
 		printf("%s %s\n", color.GreenString("Updated script written to"), color.GreenString(filePath))
 		printf("%s\n", color.YellowString("Double check it before you commit!"))
 	} else {
