@@ -16,7 +16,7 @@
 
 ![Alt Text](https://github.com/kkyr/shellcheck-gpt/blob/main/resources/screencast.gif)
 
-_Access screencast directly [here](https://asciinema.org/a/fhFJ4gOnTmscpXiv1msPfxyAz)_.
+_Access screencast directly [here](https://www.terminalizer.com/view/583f7d795810)_.
 
 See [example](https://github.com/kkyr/shellcheck-gpt/tree/main/example) directory to see script contents before and after.
 
