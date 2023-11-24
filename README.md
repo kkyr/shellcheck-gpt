@@ -70,3 +70,10 @@ shellcheck-gpt --help
 ## Contributing
 
 Contributions are welcome!
+
+Some potential improvements:
+
+- [ ] Use `shellcheck -f diff -p1` to apply fixes that can be automatically applied, before calling into LLM.
+- [ ] Support more LLMs
+- [ ] Add verbose flag to print LLM input/output
+- [ ] Refactor and introduce encapsulation

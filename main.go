@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"flag"
@@ -9,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"text/template"
 	"time"
 
@@ -119,20 +121,23 @@ func main() {
 }
 
 func run(filePath string) {
-	printf("%s\n", "Running shellcheck against script")
-
 	analysis, err := runShellcheck(filePath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	if analysis == "" {
-		printf("%s\n", color.GreenString("shellcheck detected no issues."))
-
+		printf("%s\n", color.GreenString("No issues have been detected by shellcheck."))
 		return
 	}
 
-	printf("%s\n", color.YellowString("shellcheck detected potential issues"))
+	printf("%s\n", color.YellowString("The following issues have been detected by shellcheck:"))
+	printf("%s\n", analysis)
+
+	if !getConfirmation() {
+		printf("%s\n", "Exiting!")
+		return
+	}
 
 	script, err := os.ReadFile(filePath)
 	if err != nil {
@@ -152,7 +157,7 @@ func run(filePath string) {
 		printf("%s %s\n", color.GreenString("Updated script written to"), color.GreenString(filePath))
 		printf("%s\n", color.YellowString("Double check it before you commit!"))
 	} else {
-		printf("%s\n", result)
+		printf("\n%s\n", result)
 	}
 }
 
@@ -173,9 +178,31 @@ func runShellcheck(filePath string) (string, error) {
 	return "", nil
 }
 
+func getConfirmation() bool {
+	printf("%s", color.YellowString("Would you like to proceed with correction of issues (y/n)? "))
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		input, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatalf("error reading user confirmation: %v", err)
+		}
+	
+		input = strings.ToLower(strings.TrimSpace(input))
+	
+		if input == "y" || input == "yes" {
+			return true
+		} else if input == "n" || input == "no" {
+			return false
+		} else {
+			printf("%s", color.RedString("Invalid input. Please enter 'y' or 'n': "))
+		}
+	}
+}
+
 func callCompletionAPI(script, analysis string) (string, error) {
 	spin := spinner.New(spinner.CharSets[26], 250*time.Millisecond)
-	spin.Prefix = "Waiting for completion response"
+	spin.Prefix = "Waiting for completion API response"
 
 	spin.Start()
 	defer spin.Stop()

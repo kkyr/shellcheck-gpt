@@ -9,3 +9,4 @@ linters:
     - goerr113
     - gofumpt
     - gomnd
+    - nlreturn
