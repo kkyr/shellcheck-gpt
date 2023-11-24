@@ -32,7 +32,8 @@ const (
 	the static analysis tool. You are required to make changes only to address these specific issues. 
 	Any modifications that do not directly or indirectly relate to correcting these warnings and errors 
 	should be avoided. Additionally, you must preserve the original comments in the script, altering 
-	them only if they become irrelevant due to the changes you implement.
+	them only if they become irrelevant due to the changes you implement. Do NOT add any comments of
+	your own.
 
 	Your response should exclusively consist of the updated shell script text, presented without using 
 	a code block format.
