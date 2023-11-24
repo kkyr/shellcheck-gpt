@@ -7,24 +7,29 @@ Automatically correct script issues by feeding [shellcheck](https://www.shellche
 ### Prerequisites
 
 - [ShellCheck](https://www.shellcheck.net) should be installed and in your $PATH.
-- [Go](https://go.dev/doc/install)
 - A valid OpenAI API key
 
-### Basic installation
+### Installation
 
-shellcheck-gpt can be installed using the `go install` tool. Distribution methods that do not depend on Go are coming soon!
+#### Homebrew
+
+```shell
+brew install kkyr/tap/shellcheck-gpt
+```
+
+#### Pre-built binaries
+
+Download the latest [release](https://github.com/kkyr/shellcheck-gpt/releases) and add the executable to your $PATH.
+
+#### Build using Go toolchain
+
+Add your OpenAI API key to the environment:
 
 ```shell
 go install github.com/kkyr/shellcheck-gpt
 ```
 
 ## Usage
-
-Store your OpenAI API key into the environment:
-
-```shell
-export OPENAI_API_KEY=replace-with-your-key
-```
 
 Run shellcheck-gpt against a script:
 
