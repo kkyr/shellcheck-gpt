@@ -122,7 +122,7 @@ func main() {
 }
 
 func run(filePath string) {
-	analysis, err := runShellcheck(filePath)
+	analysis, err := execShellCheck(filePath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -165,7 +165,7 @@ func run(filePath string) {
 		"may contain errors or nonsensical content. Please review thoroughly before committing."))
 }
 
-func runShellcheck(filePath string) (string, error) {
+func execShellCheck(filePath string) (string, error) {
 	cmd := exec.Command("shellcheck", filePath)
 
 	output, err := cmd.CombinedOutput()
