@@ -74,6 +74,8 @@ If you'd like to instead write the output back into the script, use the `-w` fla
 shellcheck-gpt -w script.sh
 ```
 
+Note that this will ovewrite any contents already in the script.
+
 # Configuration
 
 By default, shellcheck-gpt uses the _gpt-3.5-turbo_ model. You change model using the `-m` flag:
