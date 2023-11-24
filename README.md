@@ -96,6 +96,6 @@ Contributions are welcome!
 
 Areas for improvement:
 
-- [ ] Use `shellcheck -f diff -p1` to apply fixes that can be automatically applied before calling into LLM.
+- [ ] Use `shellcheck -f diff` to apply fixes that can be automatically applied before calling into LLM.
 - [ ] Support more LLMs
 - [ ] Add verbose flag to print LLM input/output
