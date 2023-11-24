@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "go.*"
+      - "**/*.go"
+      - ".github/workflows/*.yml"
+      - "build/lint.sh"
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21.x"
+      - name: Install dependencies
+        run: |
+          go get .
+      - name: build
+        run: go build -v ./...
+      - name: lint
+        run: make lint
+      - name: goreleaser validation
+        run: ./goreleaser check

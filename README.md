@@ -1,6 +1,6 @@
 <p align="center">
   <h3 align="center">shellcheck-gpt</h3>
-  <p align="center">Instantly fix shell scripts with the power of shellcheck and AI.</p>
+  <p align="center">Instantly fix shell scripts with the power of ShellCheck and LLMs.</p>
 </p>
 
 <p align="center">
@@ -53,7 +53,7 @@ This will:
 
 1. Run shellcheck against `script.sh`
 1. Feed the contents of the script and the output of shellcheck into an OpenAI LLM and ask it to make corrections
-1. Write the LLM's output onto stdout
+1. Write the LLM's output to stdout
 
 If you'd like to instead write the output back into the script, use the `-w` flag:
 
@@ -81,7 +81,6 @@ Contributions are welcome!
 
 Some potential improvements:
 
-- [ ] Use `shellcheck -f diff -p1` to apply fixes that can be automatically applied, before calling into LLM.
+- [ ] Use `shellcheck -f diff -p1` to apply fixes that can be automatically applied before calling into LLM.
 - [ ] Support more LLMs
 - [ ] Add verbose flag to print LLM input/output
-- [ ] Refactor and introduce encapsulation
