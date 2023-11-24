@@ -1,7 +1,7 @@
 <p align="center">
   <img src="resources/logo.png" alt="shellcheck-gpt" title="shellcheck-gpt" class="img-responsive" style="width:256px;" />
   <h3 align="center">shellcheck-gpt</h3>
-  <p align="center">Instantly enhance nad optimize shell scripts with the power of ShellCheck and LLMs.</p>
+  <p align="center">Instantly enhance and optimize shell scripts with the power of ShellCheck and LLMs.</p>
 </p>
 
 <p align="center">
@@ -24,7 +24,7 @@ See [example](https://github.com/kkyr/shellcheck-gpt/tree/main/example) director
 
 ## Prerequisites
 
-- [ShellCheck](https://www.shellcheck.net) should be installed and in your $PATH.
+- [ShellCheck](https://www.shellcheck.net) should be installed and in your PATH.
 - An active OpenAI API key.
 
 ## Installation
@@ -99,4 +99,3 @@ Areas for improvement:
 - [ ] Use `shellcheck -f diff -p1` to apply fixes that can be automatically applied before calling into LLM.
 - [ ] Support more LLMs
 - [ ] Add verbose flag to print LLM input/output
-- [ ] Refactor and encapsulate components
