@@ -11,6 +11,28 @@
 
 ---
 
+# Example
+
+The following script:
+
+```shell
+for f in $(ls *.m3u)
+do
+  grep -qi hq.*mp3 $f \
+    && echo -e 'Playlist $f contains a HQ file in mp3 format'
+done
+```
+
+Is rewritten to by shellcheck-gpt:
+
+```shell
+for f in ./*.m3u
+do
+  grep -qi "hq.*mp3" "$f" \
+    && echo "Playlist $f contains a HQ file in mp3 format"
+done
+```
+
 # Getting started
 
 ## Prerequisites
